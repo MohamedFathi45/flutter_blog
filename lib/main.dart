@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterblog/features/login/presentation/login_page.dart';
 import 'package:flutterblog/stdlib/ui/colors.dart';
 void main() {
   runApp(MyApp());
@@ -16,7 +17,6 @@ class MyApp extends StatelessWidget {
         accentColor:  BlogColor.secondary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
-
         textTheme: TextTheme(
           headline1: TextStyle(
             fontSize: 36.0,
@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
+      home: LoginPage(),
     );
   }
 }

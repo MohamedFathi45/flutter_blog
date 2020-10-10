@@ -29,7 +29,7 @@ dependencies:
   path_provider: ^1.3.0
   json_annotation: ^3.0.0
   dio: ^3.0.0 #HTTP package
-  flutter_secure_storage: ^3.3.1+1
+  #flutter_secure_storage: ^3.3.1+1
   get_it: ^3.0.3
   freezed: ^0.6.1
   auto_route: ^0.2.2
