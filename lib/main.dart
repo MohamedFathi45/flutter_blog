@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterblog/features/login/presentation/login_page.dart';
+import 'package:flutterblog/stdlib/injector.dart';
 import 'package:flutterblog/stdlib/ui/colors.dart';
+import 'package:flutterblog/stdlib/router/router.gr.dart';
 void main() {
+  setUpLocator(production: false);
   runApp(MyApp());
 }
 
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      home: LoginPage(),
+      onGenerateRoute: (settings) => Router.onGenerateRoute(settings),
+      initialRoute: "/login",
     );
   }
 }
