@@ -6,6 +6,4 @@ class Failure{
   bool resolved;
   Failure({@required  this.message , this.resolved = true});
 
-
-
 }

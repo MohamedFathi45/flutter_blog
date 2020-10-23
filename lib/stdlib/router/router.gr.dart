@@ -10,7 +10,7 @@ import 'package:auto_route/router_utils.dart';
 import 'package:flutterblog/features/login/presentation/login_page.dart';
 
 class Router {
-  static const login = '/login';
+  static const login = '/';
   static GlobalKey<NavigatorState> get navigatorKey =>
       getNavigatorKey<Router>();
   static NavigatorState get navigator => navigatorKey.currentState;

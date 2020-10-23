@@ -1,7 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterblog/features/login/domain/login.dart';
+import 'package:flutterblog/stdlib/errors/failurs.dart';
+import 'package:flutterblog/stdlib/httpClient.dart';
 import 'package:flutterblog/stdlib/ui/colors.dart';
+import 'package:dio/dio.dart';
 
-class LoginPage extends StatelessWidget {
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String message = "";
+  Color messageColor = Colors.red;
+  bool _loading = false;
+  final TextEditingController _emaiController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,16 +56,17 @@ class LoginPage extends StatelessWidget {
                           "Log in",
                           style: Theme.of(context).textTheme.headline1,
                         ),
-                      _buildField("Email", context,secure: false ,icon:Icons.email),
-                      _buildField("password", context ,secure: true , icon: Icons.lock),
+                      Text(
+                        message,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(color: messageColor),
+                      ),
+                      _buildField("Email",_emaiController ,context,secure: false ,icon:Icons.email),
+                      _buildField("password", _passwordController,context ,secure: true , icon: Icons.lock),
                       MaterialButton(
                         color: Theme.of(context).primaryColor,
-                        onPressed: (){},
-                        child: Text(
-                          "Log in".toUpperCase(),
-                          style: TextStyle(color: Colors.white),
+                          onPressed: (){_loginFunction();},
+                        child: _determinInButtonWidget(),
                         ),
-                      )
                     ],
                   ),
                 ),
@@ -59,10 +77,36 @@ class LoginPage extends StatelessWidget {
       );
   }
 
-  Widget _buildField(String text , BuildContext context ,{bool secure = false , IconData icon}){
+  Future<void> _loginFunction() async{
+    _isLoading(true);
+    try{
+       Response response = await makeKeylessRequest("/user/sharksmardo@gmail.com/the password/");
+       //handel response
+      login(response);
+    } on DioError catch(e){
+        Failure f = await basicDioErrorHandler(e,{
+          404: "Invalid credentials",
+          503: "Access Denied",
+          401: "Invalid credentials"
+        });
+        setState(() {
+          message = f.message;
+        });
+    }
+    _isLoading(false);
+  }
+  Widget _determinInButtonWidget(){
+    if(_loading )
+      return const CupertinoActivityIndicator(animating: true,);
+    else
+      return Text("Log in".toUpperCase() , style: TextStyle(color: Colors.white),);
+  }
+
+  Widget _buildField(String text ,TextEditingController controller  , BuildContext context,{bool secure = false , IconData icon}){
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0 , vertical: 10.0),
       child: TextField(
+        controller: controller,
         obscureText: secure,
           cursorColor: Theme.of(context).cursorColor,
           decoration: InputDecoration(
@@ -71,5 +115,17 @@ class LoginPage extends StatelessWidget {
           )
         ),
       );
+  }
+  void _isLoading(bool loading) {
+    if (loading) {
+      setState(() {
+        _loading = true;
+        message = "";
+      });
+    } else {
+      setState(() {
+        _loading = false;
+      });
+    }
   }
 }

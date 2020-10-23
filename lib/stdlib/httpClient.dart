@@ -27,7 +27,7 @@ String _createURL(String endpoint){
   return "http://${_config.restBaseUrl}$url";
 }
 
-Future<Failure> basicDioErrorHandler(DioError e) async{
+Future<Failure> basicDioErrorHandler(DioError e , Map<int,String> extraErrors) async{
   if (e.error is SocketException){
     return Failure(message: "Couldn't connect to our servers. Please try again soon.");
   } else if (e.response == null){
@@ -37,7 +37,13 @@ Future<Failure> basicDioErrorHandler(DioError e) async{
       return Failure(message: "Couldn't make connection.");
     }
   }
-  return Failure(message: "", resolved: false);
+  Failure f = Failure(message: "UnKnown Error", resolved: false);
+  extraErrors.forEach((code, error) {
+      if(code == e.response.statusCode){
+        f = Failure(message: error , resolved: true);
+      }
+  });
+  return f;
 }
 
 Future<bool> _isConnected() async{

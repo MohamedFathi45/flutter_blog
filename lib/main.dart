@@ -20,10 +20,21 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
         textTheme: TextTheme(
+          headline5: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
           headline1: TextStyle(
             fontSize: 36.0,
             color: BlogColor.headersColor,
             fontWeight: FontWeight.bold
+          ),
+          headline6: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+          bodyText2: TextStyle(
+            color: BlogColor.textColor
           ),
           bodyText1: TextStyle(
             color: BlogColor.textColor
@@ -31,7 +42,8 @@ class MyApp extends StatelessWidget {
         )
       ),
       onGenerateRoute: (settings) => Router.onGenerateRoute(settings),
-      initialRoute: "/login",
+      initialRoute: Router.login,
+      navigatorKey: Router.navigatorKey,
     );
   }
 }
