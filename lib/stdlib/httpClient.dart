@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
@@ -8,15 +9,15 @@ import 'package:flutterblog/stdlib/errors/failurs.dart';
 import 'package:flutterblog/stdlib/injector.dart';
 
 Dio _dio = Dio();
-final Config _config = locator<Config>();
+final Config _config = sl<Config>();
 
 
 Future<Response> makeKeylessRequest(String endpoint , {Map<String,dynamic>params}) async{
   final String url = _createURL(endpoint);
+  String json_data = json.encode(params);
   final Response response = await _dio.post(url,
-  data: params,
-  options: Options(contentType: 'text/xml'));
-
+  data: json_data,
+  options: Options(contentType: 'application/json; charset=utf-8'));
   return response;
 }
 

@@ -7,7 +7,7 @@ import 'package:flutterblog/stdlib/router/router.gr.dart';
 void login(Response response){
   final Map<String , dynamic> loginResponseAsJson = response.data as Map<String ,dynamic>;
   final User user = User.fromJson(loginResponseAsJson);
-  locator<User>().setUser(user);
+  sl<User>().setUser(user);
   User.setRefreshToken(loginResponseAsJson["refresh_token"] as String);
   Router.navigatorKey.currentState.pushNamed("/home");
 }

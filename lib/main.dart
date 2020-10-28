@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterblog/stdlib/injector.dart';
+import 'package:flutterblog/stdlib/injector.dart' as di;
 import 'package:flutterblog/stdlib/ui/colors.dart';
 import 'package:flutterblog/stdlib/router/router.gr.dart';
-void main() {
-  setUpLocator(production: false);
+void main(){
+  di.setUpLocator(production: false);
   runApp(MyApp());
 }
 
@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
         )
       ),
       onGenerateRoute: (settings) => Router.onGenerateRoute(settings),
-      initialRoute: Router.login,
       navigatorKey: Router.navigatorKey,
+      initialRoute: "/login",
     );
   }
 }
