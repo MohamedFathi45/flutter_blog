@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutterblog/features/draft/persentation/draft_sheet.dart';
+import 'package:flutterblog/stdlib/ui/colors.dart';
 
 class MainScaffold extends StatefulWidget {
   final Widget body;
@@ -40,26 +41,48 @@ class _MainScaffoldState extends State<MainScaffold> {
                  onTap: ( ) { _toggelBs(context);},
                  child: Icon(
                    Icons.create,
-                   color: Colors.grey,
+                   color: bsIsOpen ? BlogColor.primary : Colors.grey,
                  ),
                ),
              ),
            )
          ],
         ),
-        body: widget.body,
+        body: GestureDetector(
+          onTapDown: (_){
+            _closeBottomSheetIfNecessary();
+          },
+          child:widget.body
+        )
+        ,
       ),
     );
   }
+
+  void _closeBottomSheetIfNecessary(){
+    if(bsIsOpen){
+      bsController.close();
+    }
+    else{
+      setState(() {
+        bsIsOpen = false;
+      });
+    }
+  }
+
   void _toggelBs(BuildContext context){
       if(bsIsOpen){
-
+        bsController.close();
+        setState(() {
+          bsIsOpen = false;
+          bsController = null;
+        });
       }
       else{
         setState(() {
           bsController = showBottomSheet(context: context, builder: _buildBottomSheet);
+          bsIsOpen = true;
         });
-        bsIsOpen = true;
       }
   }
   Widget _buildBottomSheet(BuildContext context){

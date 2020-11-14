@@ -2,6 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterblog/stdlib/injector.dart';
+import 'package:flutterblog/stdlib/models/user.dart';
 import 'package:flutterblog/stdlib/ui/main_scaffold.dart';
 
 import 'Post.dart';
@@ -16,6 +18,7 @@ class HomePage extends StatelessWidget {
 
   List<Widget> _mockPosts(){
     List<Widget> mockPoasts = List<Widget>();
+    User = sl<User>().;
     for( int i = 0 ; i <10 ; i ++ ) {
       mockPoasts.add(Post(title: "Dart is awsome you can make greate apps",
           body: "dergasfdagafdgsdfwerwerwadsczxcxcsadqweqrgghhjtytrtytrtgfdgdzvsdsadsdqwqweqddsgsdszxcxvbsdrqfqvssdf",
